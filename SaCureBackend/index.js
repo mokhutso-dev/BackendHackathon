@@ -1,38 +1,36 @@
-const express = require('express')
-const passport = require('passport')
-const session = require("express-session")
-const mongoose = require("mongoose")
+const express = require('express');
+const passport = require('passport');
+const session = require("express-session");
+const mongoose = require("mongoose");
 
-require('dotenv').config()
-const path = require('path')
-const app = express()
+//const bodyParser = require("body-parser");
+//const { not_found, errorHandler } = require("./middlewares/errorHandling");
+
+require('dotenv').config();
+const path = require('path');
+const app = express();
 
 
 
-require("./auth")
+require("./auth");
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static(path.join(__dirname, 'views')))
-// app.use(express.static('uploads'))
+app.use(express.json());                        // or we could use app.use(bodyParser.json());
+                                               //pody-parser apparently more "reliable"-Mr Kenny said
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'views')));
+// app.use(express.static('uploads'));
 
-const port = process.env.PORT || 5001
+const port = process.env.PORT || 5001;
 
-const dbConnect = async () => {
-    try {
-        conn = await mongoose.connect(process.env.MONGODB_URI)
-        console.log("Database connected sucessfully")
+dbConnect();
 
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-dbConnect()
+//app.use("/user", path);
+//app.use(not_found);
+//app.use(errorHandler);
 
 app.listen(port, () => {
-    console.log(`Server listening on port ${port}`)
-})
+    console.log(`Server listening on port ${port}`);
+});
 
 
 
