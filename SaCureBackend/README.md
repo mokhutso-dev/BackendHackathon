@@ -24,3 +24,5 @@
 - added...//const bodyParser = require("body-parser");
 //const { not_found, errorHandler } = require("./middlewares/errorHandling");
 
+#### Comment out or remove repetitive or redundant code
+
