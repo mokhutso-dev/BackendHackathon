@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const session = require("express-session");
 const mongoose = require("mongoose");
+const bodyparser=require("bodyparser")
 
 //const bodyParser = require("body-parser");
 //const { not_found, errorHandler } = require("./middlewares/errorHandling");
@@ -14,8 +15,14 @@ const app = express();
 
 require("./auth");
 
+app.set("view engine","ejs")
+
+app.use(express.static('public'))
+
 app.use(express.json());                        // or we could use app.use(bodyParser.json());
                                                //pody-parser apparently more "reliable"-Mr Kenny said
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'views')));
 // app.use(express.static('uploads'));
@@ -26,11 +33,31 @@ dbConnect();
 
 //app.use("/user", path);
 //app.use(not_found);
-//app.use(errorHandler);
+//app.use(errorHandler)
 
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-});
+//FOR THE BUTTON
+// add a document to the DB collection recording the click event
+app.post('/clicked', (req, res) => {
+    const click = {clickTime: new Date()};
+    console.log(click);
+    console.log(db);
+  
+    db.collection('clicks').save(click, (err, result) => {
+      if (err) {
+        return console.log(err);
+      }
+      console.log('click added to db');
+      res.sendStatus(201);
+    });
+  });
+  
+  // get the click data from the database
+  app.get('/clicks', (req, res) => {
+    db.collection('clicks').find().toArray((err, result) => {
+      if (err) return console.log(err);
+      res.send(result);
+    });
+  });
 
 
 
@@ -79,6 +106,9 @@ app.get('/auth/logout', (req, res) => {
     req.session.destroy()
     res.send('See you agan')
 })
+app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+});
 
 
 

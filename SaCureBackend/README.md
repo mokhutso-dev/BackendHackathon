@@ -8,6 +8,10 @@
 #### Dependencies
 - in the terminal type `npm i express-async-handler`
 - in the terminal type `npm i body-parser`
+-- in the terminal type `npm i session`
+- in the terminal type `npm i passport`
+- in the terminal type `npm i ejs`
+
 
 #### Added to the .gitignore file
 -added the .env file to the .gitignore file to conceal DB_URI 
